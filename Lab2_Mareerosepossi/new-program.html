@@ -1,0 +1,235 @@
+<!--
+    Author: Mareerose Possi
+    Date: 19th March 2026
+    Unit: IS312 Web Application Development
+    Description: HTML form that allows a user to enter new program details.
+                 Data is sent to add-new-program.php via POST on submission.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Program - FRU10</title>
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        /* Form container */
+        .form-container {
+            max-width: 520px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 35px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        /* Form group: label + input */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2980b9;
+            outline: none;
+        }
+
+        /* Error message styling */
+        .error-msg {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 4px;
+            display: none; /* Hidden by default; shown by JS */
+        }
+
+        /* Submit button */
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #1a5276;
+        }
+
+        /* Back link */
+        .back-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .back-link a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #95a5a6;
+            font-size: 13px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page header -->
+    <header>
+        <h1>FRU10 Student Management System</h1>
+    </header>
+
+    <!-- Form container -->
+    <div class="form-container">
+        <h2>Add New Program</h2>
+
+        <!--
+            Form sends data via POST to add-new-program.php.
+            validateForm() is called before submission.
+        -->
+        <form action="add-new-program.php" method="POST" onsubmit="return validateForm()">
+
+            <!-- Program Code field -->
+            <div class="form-group">
+                <label for="programCode">Program Code:</label>
+                <input type="text" id="programCode" name="programCode" placeholder="e.g. CS">
+                <span class="error-msg" id="err-programCode">Please enter the Program Code.</span>
+            </div>
+
+            <!-- Program Name field -->
+            <div class="form-group">
+                <label for="programName">Program Name:</label>
+                <input type="text" id="programName" name="programName" placeholder="e.g. Bachelor of Computer Science">
+                <span class="error-msg" id="err-programName">Please enter the Program Name.</span>
+            </div>
+
+            <!-- Duration field -->
+            <div class="form-group">
+                <label for="duration">Duration (Years):</label>
+                <input type="number" id="duration" name="duration" placeholder="e.g. 4" min="1" max="10">
+                <span class="error-msg" id="err-duration">Please enter the Duration.</span>
+            </div>
+
+            <!-- Department field -->
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <input type="text" id="department" name="department" placeholder="e.g. Department of Information Systems">
+                <span class="error-msg" id="err-department">Please enter the Department.</span>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn-submit">Submit Program</button>
+
+        </form>
+
+        <!-- Navigation back to index -->
+        <div class="back-link">
+            <a href="index.html">&larr; Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 IS312 Web Application Development &mdash; Mareerose Possi</p>
+    </footer>
+
+    <script>
+        /**
+         * validateForm()
+         * Validates all form fields before submission.
+         * Displays inline error messages for any empty fields.
+         * Returns true if all fields are filled; false otherwise.
+         */
+        function validateForm() {
+            // Track whether the form is valid
+            let isValid = true;
+
+            // Define fields to validate: [inputId, errorSpanId]
+            const fields = [
+                ['programCode', 'err-programCode'],
+                ['programName', 'err-programName'],
+                ['duration',    'err-duration'],
+                ['department',  'err-department']
+            ];
+
+            // Loop through each field and check if it's empty
+            fields.forEach(function([fieldId, errorId]) {
+                const input = document.getElementById(fieldId);
+                const error = document.getElementById(errorId);
+
+                if (input.value.trim() === '') {
+                    // Show error message and mark form as invalid
+                    error.style.display = 'block';
+                    isValid = false;
+                } else {
+                    // Hide error message if field is filled
+                    error.style.display = 'none';
+                }
+            });
+
+            // Return false to stop form submission if validation fails
+            return isValid;
+        }
+    </script>
+
+</body>
+</html>
