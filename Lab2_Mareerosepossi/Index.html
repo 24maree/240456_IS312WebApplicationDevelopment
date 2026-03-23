@@ -1,162 +1,106 @@
 <!--
     Author: Mareerose Possi
-    Date: 19th March 2026
+    Date: 23rd March 2026
     Unit: IS312 Web Application Development
-    Description: Index page providing navigation to all application functions.
+    Description: Index/Home page for FRU10 Web Application
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FRU10 - Student Management System</title>
+    <title>FRU10 - Home</title>
     <style>
-        /* General page styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
- 
-        /* Header banner */
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 40px;
-            text-align: center;
-        }
- 
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
- 
-        header p {
-            margin: 5px 0 0;
-            font-size: 15px;
-            color: #bdc3c7;
-        }
- 
-        /* Main content container */
-        main {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
- 
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
- 
-        /* Card grid for navigation options */
-        .card-grid {
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
             display: flex;
-            gap: 30px;
             justify-content: center;
-            flex-wrap: wrap;
+            align-items: center;
+            min-height: 100vh;
         }
- 
-        /* Individual navigation card */
-        .card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 30px 25px;
-            width: 220px;
+
+        .container {
+            background-color: #ffffff;
+            padding: 50px 60px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s;
+            max-width: 500px;
+            width: 90%;
         }
- 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
- 
-        /* Icon area inside each card */
-        .card .icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
- 
-        .card h3 {
+
+        h1 {
             color: #2c3e50;
-            margin: 0 0 10px;
-            font-size: 17px;
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
- 
-        .card p {
+
+        p {
             color: #7f8c8d;
-            font-size: 13px;
-            margin: 0 0 20px;
+            margin-bottom: 40px;
+            font-size: 1rem;
         }
- 
-        /* Link button inside card */
-        .card a {
-            display: inline-block;
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 14px 20px;
             background-color: #2980b9;
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: background-color 0.2s;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
- 
-        .card a:hover {
-            background-color: #1a5276;
+
+        .nav-links a:hover {
+            background-color: #1a5f8a;
         }
- 
-        /* Footer */
+
+        .nav-links a.secondary {
+            background-color: #27ae60;
+        }
+
+        .nav-links a.secondary:hover {
+            background-color: #1e8449;
+        }
+
         footer {
-            text-align: center;
-            padding: 20px;
-            color: #95a5a6;
-            font-size: 13px;
-            margin-top: 60px;
+            margin-top: 40px;
+            color: #bdc3c7;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
- 
-    <!-- Page header -->
-    <header>
-        <h1>FRU10 Student Management System</h1>
+
+    <div class="container">
+        <h1>FRU10 Portal</h1>
         <p>IS312 Web Application Development</p>
-    </header>
- 
-    <main>
-        <h2>Welcome — Select an Option</h2>
- 
-        <!-- Navigation cards -->
-        <div class="card-grid">
- 
-            <!-- Card: Add New Program -->
-            <div class="card">
-                <div class="icon">📋</div>
-                <h3>Add New Program</h3>
-                <p>Enter and submit a new academic program into the database.</p>
-                <a href="new-program.html">Go</a>
-            </div>
- 
-            <!-- Card: Student Listing -->
-            <div class="card">
-                <div class="icon">🎓</div>
-                <h3>Student Listing</h3>
-                <p>View all enrolled students and their details in a table.</p>
-                <a href="student-listing.php">Go</a>
-            </div>
- 
+
+        <!-- Navigation links to all functions -->
+        <div class="nav-links">
+            <a href="new-program.html">➕ Add New Program</a>
+            <a href="student-listing.php" class="secondary">📋 View Student Listing</a>
         </div>
-    </main>
- 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 IS312 Web Application Development &mdash; Mareerose Possi</p>
-    </footer>
- 
+
+        <footer>
+            &copy; 2026 Mareerose Possi &mdash; Divine Word University
+        </footer>
+    </div>
+
 </body>
-</html>
- 
+</html> 
