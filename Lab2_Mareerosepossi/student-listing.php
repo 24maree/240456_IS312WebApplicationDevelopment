@@ -1,167 +1,134 @@
 <?php
 /*
     Author: Mareerose Possi
-    Date: 19th March 2026
+    Date: 23rd March 2026
     Unit: IS312 Web Application Development
-    Description: Retrieves all student records from the Student table in the FRU10
-                 database and displays them in a formatted HTML table.
+    Description: PHP script to retrieve all students from FRU10 database and display in a table
 */
 
-// ============================================
 // Database connection settings
-// ============================================
-$host   = "localhost";
-$dbUser = "root";    // Default XAMPP MySQL username
-$dbPass = "";        // Default XAMPP MySQL password (empty)
-$dbName = "FRU10";
+$host     = "localhost";
+$user     = "root";
+$password = "";
+$database = "FRU10";
 
-// ============================================
-// Step 1: Connect to the database
-// ============================================
-$conn = mysqli_connect($host, $dbUser, $dbPass, $dbName);
+// Connect to MySQL database
+$conn = mysqli_connect($host, $user, $password, $database);
 
-// Check connection
+// Check if connection was successful
 if (!$conn) {
     die("<p style='color:red;'>Connection failed: " . mysqli_connect_error() . "</p>");
 }
 
-// ============================================
-// Step 2: Execute SELECT query to fetch all students
-// ============================================
+// SQL SELECT query to retrieve all student records
 $sql    = "SELECT StudentNo, Firstname, Lastname, Gender, ContactNo, ProgramCode FROM Student";
 $result = mysqli_query($conn, $sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--
+        Author: Mareerose Possi
+        Date: 23rd March 2026
+        Unit: IS312 Web Application Development
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Listing - FRU10</title>
     <style>
-        /* General page styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Header */
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 40px;
-            text-align: center;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            padding: 40px 20px;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 26px;
-        }
-
-        /* Content wrapper */
-        .content {
+        .container {
             max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
-        h2 {
+        h1 {
             color: #2c3e50;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
         }
 
         /* Table styling */
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
         }
 
-        /* Table header row */
-        thead tr {
-            background-color: #2c3e50;
+        thead {
+            background-color: #2980b9;
             color: white;
-            text-align: left;
         }
 
         thead th {
-            padding: 14px 16px;
-            font-size: 14px;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
         }
 
-        /* Table data rows */
         tbody tr {
             border-bottom: 1px solid #ecf0f1;
-        }
-
-        tbody tr:last-child {
-            border-bottom: none;
-        }
-
-        /* Alternate row shading for readability */
-        tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
+            transition: background-color 0.2s;
         }
 
         tbody tr:hover {
-            background-color: #eaf4fb;
+            background-color: #f5faff;
         }
 
         tbody td {
-            padding: 12px 16px;
-            font-size: 14px;
-            color: #2c3e50;
+            padding: 11px 16px;
+            color: #34495e;
         }
 
-        /* No records message */
         .no-records {
             text-align: center;
             padding: 30px;
             color: #7f8c8d;
-            font-size: 15px;
         }
 
-        /* Navigation link */
-        .nav-links {
+        .back-link {
+            display: inline-block;
             margin-top: 25px;
-            font-size: 14px;
-        }
-
-        .nav-links a {
             color: #2980b9;
             text-decoration: none;
-            margin-right: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .nav-links a:hover {
+        .back-link:hover {
             text-decoration: underline;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #95a5a6;
-            font-size: 13px;
-            margin-top: 40px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Page header -->
-    <header>
-        <h1>FRU10 Student Management System</h1>
-    </header>
+    <div class="container">
+        <h1>Student Listing</h1>
+        <p class="subtitle">All enrolled students in the FRU10 database.</p>
 
-    <div class="content">
-        <h2>Student Listing</h2>
-
-        <!-- Student table -->
+        <!-- Display students in a table -->
         <table>
             <thead>
                 <tr>
@@ -175,46 +142,33 @@ $result = mysqli_query($conn, $sql);
             </thead>
             <tbody>
                 <?php
-                // ============================================
-                // Step 3: Display rows if records were found
-                // ============================================
-                if ($result && mysqli_num_rows($result) > 0) {
-                    // Loop through each student record and output a table row
+                // Loop through each student record and display as a table row
+                if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['StudentNo'])   . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Firstname'])   . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Lastname'])    . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Gender'])      . "</td>";
-                        echo "<td>" . htmlspecialchars($row['ContactNo'])   . "</td>";
-                        echo "<td>" . htmlspecialchars($row['ProgramCode']) . "</td>";
+                        echo "<td>" . $row['StudentNo']   . "</td>";
+                        echo "<td>" . $row['Firstname']   . "</td>";
+                        echo "<td>" . $row['Lastname']    . "</td>";
+                        echo "<td>" . $row['Gender']      . "</td>";
+                        echo "<td>" . $row['ContactNo']   . "</td>";
+                        echo "<td>" . $row['ProgramCode'] . "</td>";
                         echo "</tr>";
                     }
                 } else {
-                    // Display message if no student records exist
+                    // Show message if no records found
                     echo "<tr><td colspan='6' class='no-records'>No student records found.</td></tr>";
                 }
                 ?>
             </tbody>
         </table>
 
-        <!-- Navigation links -->
-        <div class="nav-links">
-            <a href="new-program.html">&#43; Add New Program</a>
-            <a href="index.html">&larr; Back to Home</a>
-        </div>
+        <a href="index.html" class="back-link">← Back to Home</a>
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 IS312 Web Application Development &mdash; Mareerose Possi</p>
-    </footer>
 
 </body>
 </html>
+
 <?php
-// ============================================
-// Step 4: Close the database connection
-// ============================================
+// Close the database connection
 mysqli_close($conn);
 ?>
